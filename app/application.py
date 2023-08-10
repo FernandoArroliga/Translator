@@ -41,6 +41,15 @@ class App(CTk):
 
             # output translated text to screen
             self.main_frame.translated_text.insert(1.0, words)
+        
+            # initialize the speech engine
+            engine = pyttsx3.init()
+
+            # pass text to speech engine
+            engine.say(words)
+
+            # run to the engine
+            engine.runAndWait()
 
         except Exception as e:
             messagebox.showerror("Translator", e)
