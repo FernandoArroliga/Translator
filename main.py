@@ -33,7 +33,7 @@ class App(CTk):
                 
         # main frame
         self.main_frame = MainFrame(self, width=frame_width, height=frame_height)
-        self.main_frame.place(x=350, y=70)
+        self.main_frame.place(x=350, y=50)
     
     def translate_it(self):
         print("Testing app")
@@ -51,6 +51,9 @@ class MainFrame(CTkFrame):
         self.width = width
         self.height = height
         self.configure(width=self.width, height=self.height)
+        
+        # Text font
+        self.font_options = ("Georgia", 10)
         
         # configure grid system
         self.grid_rowconfigure((0, 1, 2, 3, 4), weight=1)  
@@ -72,55 +75,64 @@ class MainFrame(CTkFrame):
         self.original_combo = CTkComboBox(
             self, 
             width=100,
-            button_hover_color="#99ffff", 
-            border_color="#99ffff",
-            button_color="#99ffff",
-            text_color="black",
+            button_hover_color="#46189f", 
+            border_color="#6f38de",
+            button_color="#6f38de",
+            text_color="white",
+            dropdown_fg_color="#6f38de",
+            dropdown_hover_color="#46189f",
             values=self.language_list)
         self.original_combo.set("")
-        self.original_combo.grid(row=0, column=0, sticky="sw", padx=20, pady=20)
+        self.original_combo.grid(row=0, column=0, sticky="sw", padx=20, pady=10)
 
         self.clear_button = CTkButton(
             self, 
             text="Clear", 
-            font=("Helvetica", 20), 
-            fg_color="#99ffff",
-            hover_color="#dcffd7",
-            text_color="black",            
+            font=("Impact", 20), 
+            fg_color="#6f38de",
+            hover_color="#46189f",
+            text_color="white",            
             command=self.master.clear)
-        self.clear_button.grid(row=0, column=2, sticky="sw", padx=20, pady=20)
+        self.clear_button.grid(row=0, column=2, sticky="sw", padx=20, pady=10)
         
         self.translate_button = CTkButton(
             self, 
             text="Translate", 
-            font=("Helvetica", 20), 
-            fg_color="#99ffff",
-            hover_color="#dcffd7",
-            text_color="black",
+            font=("Impact", 20), 
+            fg_color="#6f38de",         
+            hover_color="#46189f",
+            text_color="white",
             command=self.master.translate_it)
-        self.translate_button.grid(row=0, column=1,sticky="sw", padx=20, pady=20)            
+        self.translate_button.grid(row=0, column=1,sticky="sw", padx=20, pady=10)            
         
         # Second row
         self.original_text = Text(self, height=10, width=40)
         self.original_text.grid(row=1, column=0, pady=20, padx=20, columnspan=3, sticky="news")
+        self.original_text.configure(font=self.font_options)
     
         # Third row   
         self.translated_text = Text(self, height=10, width=40)
         self.translated_text.grid(row=2, column=0, pady=10, padx=20, columnspan=3, sticky="news")
+        self.translated_text.configure(font=self.font_options)
 
         # fourth row
         self.translated_combo = CTkComboBox(
             self, 
             width=100,
-            button_hover_color="#99ffff", 
-            border_color="#99ffff",
-            button_color="#99ffff",    
-            text_color="black",         
+            button_hover_color="#46189f", 
+            border_color="#6f38de",
+            button_color="#6f38de",    
+            text_color="white",  
+            dropdown_fg_color="#6f38de",  
+            dropdown_hover_color="#46189f",     
             values=self.language_list)
         self.translated_combo.set("")
-        self.translated_combo.grid(row=3, column=0, padx=20, sticky="nw")
+        self.translated_combo.grid(row=3, column=0, padx=20, sticky="nw", pady=10)
         
 # Running the application        
 if __name__ == "__main__":
     app = App()
     app.mainloop()
+    
+    
+    
