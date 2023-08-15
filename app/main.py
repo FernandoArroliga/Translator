@@ -4,6 +4,8 @@ from tkinter import messagebox, END
 from tkinter import ttk, Text, Label
 import googletrans
 from PIL import Image, ImageTk
+import textblob
+import pyttsx3
 
 # Setting the application theme
 set_default_color_theme("green")
@@ -36,7 +38,42 @@ class App(CTk):
         self.main_frame.place(x=350, y=50)
     
     def translate_it(self):
-        print("Testing app")
+        # delete any previous translations
+        self.main_frame.translated_text.delete(1.0, END)
+        try:
+            # get languages from dictionary keys
+            # get the from language key
+            for key, value in self.main_frame.languages.items():
+                if (value == self.main_frame.original_combo.get()):
+                    from_language_key = key
+
+            # get the to language key
+            for key, value in self.main_frame.languages.items():
+                if (value == self.main_frame.translated_combo.get()):
+                    to_language_key = key
+                
+            # turn original text into a textblob 
+            words = textblob.TextBlob(self.main_frame.original_text.get(1.0, END))
+
+            # translate text
+            words = words.translate(
+                from_lang=from_language_key,
+                to = to_language_key)
+
+            # output translated text to screen
+            self.main_frame.translated_text.insert(1.0, words)
+        
+            # initialize the speech engine
+            engine = pyttsx3.init()
+
+            # pass text to speech engine
+            engine.say(words)
+
+            # run to the engine
+            engine.runAndWait()
+
+        except Exception as e:
+            messagebox.showerror("Translator", e)
         
     def clear(self):
         # clear the text boxes
