@@ -18,7 +18,7 @@ class App(CTk):
         # basic window configuration
         self.title("Translator")
         self.geometry("900x600")
-        self.iconbitmap("translator_icon.ico")
+        self.iconbitmap("images/translator_icon.ico")
         self.maxsize(width=900, height=600)    
         
         # frame size
@@ -26,7 +26,7 @@ class App(CTk):
         frame_height = 650  
         
         # background image
-        self.background_image = Image.open("background.jpg").resize((900,600))
+        self.background_image = Image.open("images/background.jpg").resize((900,600))
         self.background = ImageTk.PhotoImage(self.background_image)
         
         # adding background to the window
