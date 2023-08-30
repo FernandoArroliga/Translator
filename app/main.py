@@ -14,7 +14,7 @@ set_appearance_mode("dark")
 class App(CTk):
     def __init__(self):
         super().__init__()
-        
+        #--------- Basic Window Configuration---------
         # basic window configuration
         self.title("Translator")
         self.geometry("900x600")
@@ -22,8 +22,8 @@ class App(CTk):
         self.maxsize(width=900, height=600)    
         
         # frame size
-        frame_width = 600
-        frame_height = 650  
+        #frame_width = 600
+        #frame_height = 650  
         
         # background image
         self.background_image = Image.open("images/background01.jpg").resize((900,600))
@@ -34,26 +34,27 @@ class App(CTk):
         self.background_label.place(relwidth=1, relheight=1)  
                 
         # main frame
-        self.main_frame = MainFrame(self, width=frame_width, height=frame_height)
-        self.main_frame.place(x=350, y=50)
+        self.right_frame = RightFrame(self)
+        #self.right_frame.place(x=350, y=50)
+        self.right_frame.pack()
     
     def translate_it(self):
         # delete any previous translations
-        self.main_frame.translated_text.delete(1.0, END)
+        self.right_frame.translated_text.delete(1.0, END)
         try:
             # get languages from dictionary keys
             # get the from language key
-            for key, value in self.main_frame.languages.items():
-                if (value == self.main_frame.original_combo.get()):
+            for key, value in self.right_frame.languages.items():
+                if (value == self.right_frame.original_combo.get()):
                     from_language_key = key
 
             # get the to language key
-            for key, value in self.main_frame.languages.items():
-                if (value == self.main_frame.translated_combo.get()):
+            for key, value in self.right_frame.languages.items():
+                if (value == self.right_frame.translated_combo.get()):
                     to_language_key = key
                 
             # turn original text into a textblob 
-            words = textblob.TextBlob(self.main_frame.original_text.get(1.0, END))
+            words = textblob.TextBlob(self.right_frame.original_text.get(1.0, END))
 
             # translate text
             words = words.translate(
@@ -61,7 +62,7 @@ class App(CTk):
                 to = to_language_key)
 
             # output translated text to screen
-            self.main_frame.translated_text.insert(1.0, words)
+            self.right_frame.translated_text.insert(1.0, words)
         
             # initialize the speech engine
             #engine = pyttsx3.init()
@@ -76,7 +77,7 @@ class App(CTk):
             messagebox.showerror("Translator", e)
             
     def read_text(self, text_to_speech):
-        text_to_speech = textblob.TextBlob(self.main_frame.original_text.get(1.0, END))
+        text_to_speech = textblob.TextBlob(self.right_frame.original_text.get(1.0, END))
 
         
         # initialize the speech engine
@@ -90,16 +91,17 @@ class App(CTk):
         
     def clear(self):
         # clear the text boxes
-        self.main_frame.original_text.delete(1.0, END)
-        self.main_frame.translated_text.delete(1.0, END)
+        self.right_frame.original_text.delete(1.0, END)
+        self.right_frame.translated_text.delete(1.0, END)
         
-class MainFrame(CTkFrame):
-    def __init__(self, master, width, height, **kwargs):
+class RightFrame(CTkFrame):
+    def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
-        # defining the size of the frame
-        self.width = width
-        self.height = height
-        self.configure(width=self.width, height=self.height)
+        
+        # configuring the style of the frame 
+        self.width = 900
+        self.height = 850
+        #self.configure(width=self.width, height=self.height)
         self.configure(fg_color="black")
         
         # Text font
@@ -107,7 +109,7 @@ class MainFrame(CTkFrame):
         
         # configure grid system
         self.grid_rowconfigure((0, 1, 2, 3, 4), weight=1)  
-        self.grid_columnconfigure((0, 1, 2, 3), weight=1)
+        self.grid_columnconfigure((0, 1, 2), weight=1)
         
         # --------------variables------------------
         # Grab language list from GoogleTrans
@@ -121,7 +123,7 @@ class MainFrame(CTkFrame):
         
     def create_widgets(self):
         
-        # first row
+        # First row
         self.original_combo = CTkComboBox(
             self, 
             width=100,
@@ -135,11 +137,10 @@ class MainFrame(CTkFrame):
         self.original_combo.set("")
         self.original_combo.grid(row=0, column=0, sticky="sw", padx=20, pady=10)
         
-        #self.speak_from = CTkButton(
-        #    self,
-        #    text= "speak"
-        #)
-        #self.speak_from.grid(row=0, column=1, padx=10, pady=10)
+        self.speak_from = CTkButton(
+            self,
+            text= "speak")
+        self.speak_from.grid(row=0, column=1)
 
         self.clear_button = CTkButton(
             self,
@@ -151,6 +152,20 @@ class MainFrame(CTkFrame):
             command=self.master.clear)
         self.clear_button.grid(row=0, column=2, sticky="sw", padx=20, pady=10)
         
+
+        # Second row
+        #self.original_text = Text(self, height=10, width=40)
+        #self.original_text.grid(row=1, column=0, pady=20, padx=20, columnspan=3, sticky="news")
+        #self.original_text.configure(font=self.font_options)
+        
+        self.from_language_textbox = CTkTextbox(self, width=40, height=200, fg_color="violet")
+        self.from_language_textbox.grid(row=1, column=0, pady=20, padx=20, columnspan=3, sticky="news")
+
+    
+        # Third row   
+        #self.translated_text = Text(self, height=10, width=40)
+        #self.translated_text.grid(row=2, column=0, pady=10, padx=20, columnspan=3, sticky="news")
+        #self.translated_text.configure(font=self.font_options)
         self.translate_button = CTkButton(
             self, 
             text="Translate", 
@@ -159,27 +174,13 @@ class MainFrame(CTkFrame):
             hover_color="#46189f",
             text_color="white",
             command=self.master.translate_it)
-        self.translate_button.grid(row=0, column=1,sticky="sw", padx=20, pady=10)            
+        self.translate_button.grid(row=2, column=0,sticky="sw", padx=20, pady=10)            
         
-        # Second row
-        #self.original_text = Text(self, height=10, width=40)
-        #self.original_text.grid(row=1, column=0, pady=20, padx=20, columnspan=3, sticky="news")
-        #self.original_text.configure(font=self.font_options)
-        
-        self.message_textbox1 = CTkTextbox(self, width=40, height=200, fg_color="violet")
-        self.message_textbox1.grid(row=1, column=0, pady=20, padx=20, columnspan=3, sticky="news")
-
-    
-        # Third row   
-        #self.translated_text = Text(self, height=10, width=40)
-        #self.translated_text.grid(row=2, column=0, pady=10, padx=20, columnspan=3, sticky="news")
-        #self.translated_text.configure(font=self.font_options)
-
-        self.message_textbox = CTkTextbox(self, width=40, height=200)
-        self.message_textbox.grid(row=2, column=0, pady=20, padx=20, columnspan=3, sticky="news")
-        self.message_textbox.configure(font=self.font_options)
-
         # fourth row
+        self.translated_textbox = CTkTextbox(self, width=40, height=200)
+        self.translated_textbox.grid(row=2, column=0, pady=20, padx=20, columnspan=3, sticky="news")
+        self.translated_textbox.configure(font=self.font_options)
+        
         self.translated_combo = CTkComboBox(
             self, 
             width=100,
@@ -191,7 +192,13 @@ class MainFrame(CTkFrame):
             dropdown_hover_color="#46189f",     
             values=self.language_list)
         self.translated_combo.set("")
-        self.translated_combo.grid(row=3, column=0, padx=20, sticky="nw", pady=10)
+        self.translated_combo.grid(row=4, column=0, padx=20, sticky="nw", pady=10)
+
+        self.speak_from = CTkButton(
+            self,
+            text= "speak")
+        self.speak_from.grid(row=0, column=1)        
+        
         
 # Running the application        
 if __name__ == "__main__":
