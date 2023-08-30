@@ -129,12 +129,12 @@ class RightFrame(CTkFrame):
             dropdown_hover_color="#46189f",
             values=self.language_list)
         self.original_combo.set("")
-        self.original_combo.grid(row=0, column=0, sticky="sw", padx=20, pady=10)
+        self.original_combo.grid(row=0, column=0, sticky="sw", padx=10, pady=10)
         
         self.speak_from = CTkButton(
             self,
             text= "speak")
-        self.speak_from.grid(row=0, column=1)
+        self.speak_from.grid(row=0, column=1, padx=10, pady=10)
 
         self.clear_button = CTkButton(
             self,
@@ -149,7 +149,7 @@ class RightFrame(CTkFrame):
 
         # Second row
         self.from_language_textbox = CTkTextbox(self, width=40, height=100, fg_color="violet")
-        self.from_language_textbox.grid(row=1, column=0, pady=20, padx=20, columnspan=3, sticky="news")
+        self.from_language_textbox.grid(row=1, column=0, pady=10, padx=10, columnspan=3, sticky="news")
         self.from_language_textbox.configure(font=self.font_options)
 
         # Third row   
@@ -161,11 +161,11 @@ class RightFrame(CTkFrame):
             hover_color="#46189f",
             text_color="white",
             command=self.master.translate_it)
-        self.translate_button.grid(row=2, column=0)    
+        self.translate_button.grid(row=2, column=0, padx=10, pady=10)    
         
         # fourth row
         self.translated_textbox = CTkTextbox(self, width=40, height=100)
-        self.translated_textbox.grid(row=3, column=0)
+        self.translated_textbox.grid(row=3, column=0, padx=10, pady=10, columnspan=3, sticky="nswe")
         self.translated_textbox.configure(font=self.font_options)
         
         self.translated_combo = CTkComboBox(
@@ -179,12 +179,23 @@ class RightFrame(CTkFrame):
             dropdown_hover_color="#46189f",     
             values=self.language_list)
         self.translated_combo.set("")
-        self.translated_combo.grid(row=4, column=0, padx=20, sticky="nw", pady=10)
+        self.translated_combo.grid(row=4, column=0, padx=10, sticky="nw", pady=10)
 
+        #self.speak_from = CTkButton(
+        #    self,
+        #    text= "speak")
+        #self.speak_from.grid(row=4, column=1, pady=10)       
+        
         self.speak_from = CTkButton(
             self,
-            text= "speak")
-        self.speak_from.grid(row=4, column=1)        
+            text="speak", 
+            font=("Impact", 10), 
+            fg_color="#6f38de",
+            hover_color="#46189f",
+            text_color="white",            
+            command=self.master.clear,
+            width=10)
+        self.speak_from.grid(row=4, column=1, sticky="ne", padx=0, pady=10) 
         
         
 # Running the application        
