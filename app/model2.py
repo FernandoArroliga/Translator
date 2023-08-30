@@ -21,10 +21,6 @@ class App(CTk):
         self.iconbitmap("images/translator_icon.ico")
         self.maxsize(width=900, height=600)    
         
-        # frame size
-        #frame_width = 600
-        #frame_height = 650  
-        
         # background image
         self.background_image = Image.open("images/background01.jpg").resize((900,600))
         self.background = ImageTk.PhotoImage(self.background_image)
@@ -35,8 +31,7 @@ class App(CTk):
                 
         # main frame
         self.right_frame = RightFrame(self)
-        #self.right_frame.place(x=350, y=50)
-        self.right_frame.pack()
+        self.right_frame.pack(side="left", fill="y")
     
     def translate_it(self):
         # delete any previous translations
@@ -101,7 +96,6 @@ class RightFrame(CTkFrame):
         # configuring the style of the frame 
         self.width = 900
         self.height = 850
-        #self.configure(width=self.width, height=self.height)
         self.configure(fg_color="black")
         
         # Text font
@@ -154,18 +148,11 @@ class RightFrame(CTkFrame):
         
 
         # Second row
-        #self.original_text = Text(self, height=10, width=40)
-        #self.original_text.grid(row=1, column=0, pady=20, padx=20, columnspan=3, sticky="news")
-        #self.original_text.configure(font=self.font_options)
-        
-        self.from_language_textbox = CTkTextbox(self, width=40, height=200, fg_color="violet")
+        self.from_language_textbox = CTkTextbox(self, width=40, height=100, fg_color="violet")
         self.from_language_textbox.grid(row=1, column=0, pady=20, padx=20, columnspan=3, sticky="news")
+        self.from_language_textbox.configure(font=self.font_options)
 
-    
         # Third row   
-        #self.translated_text = Text(self, height=10, width=40)
-        #self.translated_text.grid(row=2, column=0, pady=10, padx=20, columnspan=3, sticky="news")
-        #self.translated_text.configure(font=self.font_options)
         self.translate_button = CTkButton(
             self, 
             text="Translate", 
@@ -174,11 +161,11 @@ class RightFrame(CTkFrame):
             hover_color="#46189f",
             text_color="white",
             command=self.master.translate_it)
-        self.translate_button.grid(row=2, column=0,sticky="sw", padx=20, pady=10)            
+        self.translate_button.grid(row=2, column=0)    
         
         # fourth row
-        self.translated_textbox = CTkTextbox(self, width=40, height=200)
-        self.translated_textbox.grid(row=2, column=0, pady=20, padx=20, columnspan=3, sticky="news")
+        self.translated_textbox = CTkTextbox(self, width=40, height=100)
+        self.translated_textbox.grid(row=3, column=0)
         self.translated_textbox.configure(font=self.font_options)
         
         self.translated_combo = CTkComboBox(
@@ -197,10 +184,11 @@ class RightFrame(CTkFrame):
         self.speak_from = CTkButton(
             self,
             text= "speak")
-        self.speak_from.grid(row=0, column=1)        
+        self.speak_from.grid(row=4, column=1)        
         
         
 # Running the application        
 if __name__ == "__main__":
     app = App()
     app.mainloop()
+    
