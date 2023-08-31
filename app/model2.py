@@ -21,7 +21,7 @@ class App(CTk):
         self.maxsize(width=900, height=600)    
         
         # background image
-        self.background_image = Image.open("images/background03.jpg").resize((900,600))
+        self.background_image = Image.open("images/background04.jpg").resize((900,600))
         self.background = ImageTk.PhotoImage(self.background_image)
         
         # adding background to the window
