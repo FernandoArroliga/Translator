@@ -1,37 +1,8 @@
 from customtkinter import *
 
-"""
-# Main configuration
-window = CTk()
-window.title("Testing App")
-window.geometry("600x400")
-
-# Functionality
-def updates():
-    label1.configure(text="Hello World")
-
-def night_mode():
-    set_default_color_theme("dark-blue")
-    set_appearance_mode("dark")   
-
-# Widgets
-label1 = CTkLabel(window, text="This is my text")
-label1.pack(pady=10)
-
-btn1 = CTkButton(window, text="Press me!", command=updates)
-btn1.pack(pady=10)
-
-btn2 = CTkButton(window, text="c:", command=night_mode)
-btn2.pack(pady=10)
-
-# Run the application
-window.mainloop()
-
-"""
-
 class App(CTk):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+    def __init__(self):
+        super().__init__()
 
         # Basic configuration
         self.title("Testing App")
@@ -39,9 +10,13 @@ class App(CTk):
         
         # Main Frame
         self.main_frame = MainFrame(self)
+        self.main_frame.pack(pady=10)
 
+        self.sub_frame = SubFrame(self)
+                
     def updates(self):
-        print("Testing")
+        self.sub_frame.pack(pady=10, expand=True, fill="both")
+    
         
     def destroy(self):
         self.main_frame.destroy()
@@ -49,9 +24,6 @@ class App(CTk):
 class MainFrame(CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
-        
-        # basic configuration
-        self.pack(pady=10)
         
         # Create widgets
         self.create_widgets()
@@ -65,7 +37,21 @@ class MainFrame(CTkFrame):
 
         self.btn2 = CTkButton(self, text="Destroy", command=self.master.destroy)
         self.btn2.pack(pady=10)       
+
+class SubFrame(CTkFrame):
+    def __init__(self, master, **kwargs):
+        super().__init__(master, **kwargs)
         
+        # basic configuration
+        self.pack(pady=10)
+        
+        # create widgets
+        self.create_widgets()
+        
+    def create_widgets(self):
+        
+        self.info = CTkLabel(self, text="Hello world")
+        self.info.pack(expand=True, fill="both")
 
 if __name__ == "__main__":
     app = App()
