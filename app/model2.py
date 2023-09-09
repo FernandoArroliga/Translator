@@ -47,6 +47,14 @@ class App(CTk):
         
     def speak(self):
         print("Testing speak button")
+        
+    def close_translator_frame(self):
+        # close translator frame
+        self.translator_frame.destroy()
+        
+        # open welcome frame
+        self.welcome_frame
+        self.welcome_frame.place(x=450, y=50) 
 
     def translate_it(self):
         # delete any previous translations
@@ -98,9 +106,12 @@ class App(CTk):
         # run to the engine
         engine.runAndWait()
         
-    def clear(self):
+    def clear_textbox1(self):
         # clear the text boxes
         self.translator_frame.from_language_textbox.delete(1.0, END)
+        
+    def clear_textbox2(self):
+        # clear the text boxes
         self.translator_frame.translated_textbox.delete(1.0, END)
         
 class TranslatorFrame(CTkFrame):
@@ -139,6 +150,13 @@ class TranslatorFrame(CTkFrame):
         self.title_label = CTkLabel(self, text="Translator App")
         self.title_label.grid(row=0, column=0, columnspan=3, sticky="w", padx=10)
         
+        self.corner_button = CTkButton(
+            self, 
+            text="x", 
+            width=10, 
+            command=self.master.close_translator_frame)
+        self.corner_button.grid(row=0, column=3, sticky="ne")
+        
         # Row 1
         self.original_language_combo = CTkComboBox(
             self, 
@@ -172,7 +190,7 @@ class TranslatorFrame(CTkFrame):
             fg_color="#6f38de",
             hover_color="#46189f",
             text_color="white",            
-            command=self.master.clear)
+            command=self.master.clear_textbox1)
         self.clear_button1.grid(row=1, column=2, sticky="sw", pady=10, padx=10)
         
         # Row 2
@@ -229,7 +247,7 @@ class TranslatorFrame(CTkFrame):
             fg_color="#6f38de",
             hover_color="#46189f",
             text_color="white",            
-            command=self.master.clear)
+            command=self.master.clear_textbox2)
         self.clear_button2.grid(row=5, column=2, sticky="nw", pady=10, padx=10)
         
 class WelcomeFrame(CTkFrame):
